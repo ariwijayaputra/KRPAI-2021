@@ -56,15 +56,14 @@ void setPosisi(int leg, int x, int y, int z) {
   setPulse(servo[leg][1], pulse[leg][1] + pulse1);
   setPulse(servo[leg][2], pulse[leg][2] + pulse2);
   setPulse(servo[leg][0], pulse[leg][0] + pulse3);
-
 }
 void rest() {//posisi istirahat
-  setPosisi(0, 100, 0, 0);//3
-  setPosisi(2, 100, 0, 0);
-  setPosisi(4, 100, 0, 0);
-  setPosisi(1, 100, 0, 0);//1
-  setPosisi(3, 100, 0, 0);
-  setPosisi(5, 100, 0, 0);
+  setPosisi(0, 50, 0, -95);//3
+  setPosisi(2, 50, 0, -95);
+  setPosisi(4, 50, 0, -95);
+  setPosisi(1, 50, 0, -95);//1
+  setPosisi(3, 50, 0, -95);
+  setPosisi(5, 50, 0, -95);
   runAt(1400);
 }
 
@@ -74,12 +73,12 @@ int gait[6][3] = {
     4   3   2
     --------------->
   */
-  {54, 0, -70},//1
-  {54, 20, -83},//2
-  {54, 0, -83},//3
-  {54, -20, -83},//4
-  {54, 0, -70},//5
-  {54, 20, -83},//6
+  {50, 0, -80},//1
+  {50, 20, -95},//2
+  {50, 0, -95},//3
+  {50, -20, -95},//4
+  {50, 0, -80},//5
+  {50, 20, -95},//6
 };
 
 int gaitMundur[6][3] = {
@@ -88,12 +87,12 @@ int gaitMundur[6][3] = {
     4   3   2
     --------------->
   */
-  {54, 0, -70},//1
-  {54, -20, -83},//4
-  {54, 0, -83},//3
-  {54, 20, -83},//2
-  {54, 0, -70},//5
-  {54, 20, -83},//6
+  {49, 0, -80},//1
+  {49, -20, -98},//4
+  {49, 0, -98},//3
+  {49, 20, -98},//2
+  {49, 0, -80},//5
+  {49, -20, -98},//6
 };
 int gaitRotateLeft[6][3] = {//in degrees
   /*
@@ -122,7 +121,10 @@ int gaitRotateRight[6][3] = {//in degrees
   {0, 15, 15},
   {-10, 30, 30},
 };
-
+void test(){
+  setPosisi(1, gait[i][0], gait[i][1], gait[i][2]);
+  runAt(200);
+}
 void maju() {
   /*
         1
@@ -141,6 +143,7 @@ void maju() {
         setPosisi(leg, gait[i + 2][0], gait[i + 2][1], gait[i + 2][2]);
       }
     }
+    //Serial.println(i);
     runAt(140);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
     i++;
   }
