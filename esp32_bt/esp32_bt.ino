@@ -27,8 +27,9 @@ const char* password = "Ariwijayaputra1";
 elapsedMillis legTime, calibrateTime, RGBTime;
 
 void setup() {
-  otaSetup();
   Serial.begin(9600);
+  otaSetup();
+  
   //SerialBT.begin("Hexapod STIKOM Bali"); //Bluetooth device name uncomment to use bluetooth
   Serial.println("The device started, now you can pair it with bluetooth!");
   pinMode(BUTTON, INPUT_PULLUP);
