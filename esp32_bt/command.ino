@@ -2,24 +2,25 @@ void walk(String arah, int waktu) {
   elapsedMillis timer;
   while (timer < waktu && buttonVal != 1) {
     if (arah == "maju") {
-      //maju();
-      Serial.println("Maju");
+      maju();
+      //Serial.println("Maju");
     }
     else if (arah == "mundur") {
-      //mundur();
-      Serial.println("Mundur");
+      mundur();
+      //Serial.println("Mundur");
     }
     else if (arah == "left") {
-      //rotateLeft();
-      Serial.println("kiri");
+      rotateLeft();
+      //Serial.println("kiri");
     }
     else if (arah == "right") {
-      //rotateRight();
-      Serial.println("kanan");
+      rotateRight();
+      //Serial.println("kanan");
+    }
+    else if (arah == "tinggi") {
+      tinggi();
+      //Serial.println("kanan");
     }
     buttonVal = digitalRead(BUTTON);
-    
-
   }
-
 }

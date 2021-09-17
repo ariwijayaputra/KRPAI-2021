@@ -11,7 +11,7 @@
 #include <Kinematics.h>
 Kinematics k(54, 73);
 #include <elapsedMillis.h>
-#define BUTTON 33 
+#define BUTTON 33
 int buttonVal;
 Position p[6];
 Angle a[6];
@@ -25,46 +25,50 @@ const char* ssid = "AWP";
 const char* password = "Ariwijayaputra1";
 //BluetoothSerial SerialBT;
 elapsedMillis legTime, calibrateTime, RGBTime;
-
+int restState;
 void setup() {
   Serial.begin(9600);
   otaSetup();
-  
+
   //SerialBT.begin("Hexapod STIKOM Bali"); //Bluetooth device name uncomment to use bluetooth
   Serial.println("The device started, now you can pair it with bluetooth!");
   pinMode(BUTTON, INPUT_PULLUP);
+  rest();
+  restState = 1;
 }
 
 void loop() {
+  ArduinoOTA.handle();
   buttonVal = digitalRead(BUTTON);
-  Serial.println(buttonVal);
-  if(buttonVal == LOW){
-    
-    walk("maju", 5000);
-    walk("mundur", 5000);
-    delay(10000);
-    walk("left", 5000);
-    walk("right", 5000);
+  //Serial.println(buttonVal);
+  if (buttonVal == LOW) {
+    walk("tinggi",5000);
+    restState = 0;
   }
-//  if (SerialBT.available()) {
-//    char input = SerialBT.read();
-//    switch (input)
-//    {
-//      case 'F': {
-//          maju();
-//        };
-//      case 'B': {
-//          mundur();
-//        };
-//      case 'L': {
-//          rotateLeft();
-//        };
-//      case 'R': {
-//          rotateRight();
-//        };
-//      default:
-//        break;
-//    }
-//  }
-//  delay(20);
+  if(rest == 0){
+    rest();
+    restState = 1;
+  }
+  
+  //  if (SerialBT.available()) {
+  //    char input = SerialBT.read();
+  //    switch (input)
+  //    {
+  //      case 'F': {
+  //          maju();
+  //        };
+  //      case 'B': {
+  //          mundur();
+  //        };
+  //      case 'L': {
+  //          rotateLeft();
+  //        };
+  //      case 'R': {
+  //          rotateRight();
+  //        };
+  //      default:
+  //        break;
+  //    }
+  //  }
+  //  delay(20);
 }
