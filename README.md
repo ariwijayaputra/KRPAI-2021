@@ -1,4 +1,5 @@
 # Project KRI RADE 2021
+readme menyusul
 
 # Rangka bawah
 ![image](https://user-images.githubusercontent.com/62342206/133871000-b2e1d679-acb3-45ef-bbbc-ca6702f8a3ad.png)
