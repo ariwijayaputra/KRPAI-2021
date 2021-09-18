@@ -1,3 +1,10 @@
+/*
+ * file untuk menyimpan coding mengenai servo,
+ * mulai dari inisiasi servo, kalibrasi pulse awal,
+ * hingga fungsi fungsi untuk mengontrol servo.
+ * ruwet gan.
+ * penjelasan lebih lengkap menyusul.
+ */
 int servo[6][3] = {
   {1, 2, 3},//f1,f2,f3
   {4, 5, 6},//e1,e2,e3
@@ -175,7 +182,7 @@ void maju() {
     --------------->
   */
 
-  if (legTime > 180) {//legtime = runAt + 25
+  if (legTime > 180) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -203,7 +210,7 @@ void mundur() {
     --------------->
   */
 
-  if (legTime > 180) {//legtime = runAt + 25
+  if (legTime > 180) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -223,7 +230,7 @@ void mundur() {
 }
 
 void rotateLeft() {
-  if (legTime > 180) {//legtime = runAt + 25
+  if (legTime > 180) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -246,7 +253,7 @@ void rotateLeft() {
 }
 
 void rotateRight() {
-  if (legTime > 180) {//legtime = runAt + 25
+  if (legTime > 180) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
