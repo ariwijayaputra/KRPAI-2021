@@ -1,3 +1,8 @@
+/*
+file untuk menyimpan perintah yang dijalankan pada
+void loop.
+*/
+
 void walk(String arah, int waktu) {
   elapsedMillis timer;
   while (timer < waktu && buttonVal != 1) {
