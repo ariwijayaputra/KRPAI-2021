@@ -1,3 +1,12 @@
+/*
+file untuk menyimpan setup arduino on the air (OTA)
+arduino on the air digunakan untuk upload code melalui
+jaringan wifi. code dibawah ga jelas karena aku copas
+(dikira kira aja / cari dokumentasinya di google).
+
+ps. ga perlu tau juga isi dibawah apa, anggep aja library :)
+*/
+
 void otaSetup(){
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);
