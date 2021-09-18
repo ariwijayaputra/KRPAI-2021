@@ -7,4 +7,4 @@ readme menyusul
 
 
 # Schematic
-![krpai 2021](https://user-images.githubusercontent.com/62342206/133871026-af6a8d88-f500-489e-a1da-829c6d23d266.jpg)
+![image](https://user-images.githubusercontent.com/62342206/133871392-9fa67fe2-b38d-475b-8727-15dbde5728fb.png)
