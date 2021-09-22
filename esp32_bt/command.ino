@@ -1,6 +1,6 @@
 /*
-file untuk menyimpan perintah yang dijalankan pada
-void loop.
+  file untuk menyimpan perintah yang dijalankan pada
+  void loop.
 */
 void walk(String arah, int waktu) {
   elapsedMillis timer;
@@ -21,9 +21,17 @@ void walk(String arah, int waktu) {
       rotateRight();
       //Serial.println("kanan");
     }
+    else if (arah == "rightTinggi") {
+      rotateRightTinggi();
+      //Serial.println("kanan");
+    }
+    else if (arah == "leftTinggi") {
+      rotateLeftTinggi();
+      //Serial.println("kanan");
+    }
     else if (arah == "tinggi") {
       tinggi();
-      //Serial.println("kanan");
+      //Serial.println("tinggi");
     }
     buttonVal = digitalRead(BUTTON);
   }

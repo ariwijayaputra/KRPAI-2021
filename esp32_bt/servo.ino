@@ -32,7 +32,7 @@ void setPulse(int s, int p) {
   Serial.print("#" + String(s) + "P" + String(p));
 }
 
-void setPosisi(int leg, int x, int y, int z) {
+void setPosisi(int leg, float x, float y, float z) {
   if (leg == 0) {
     x = round(x + (0.86 * y));
     y = round(y / 2) * -1;
@@ -122,11 +122,11 @@ int gaitRotateLeft[6][3] = {//in degrees
     --------------->
   */
   {0, 15, 15},
-  {10, 30, 30},
+  {11.25, 30, 30},
   {0, 30, 30},
-  { -10, 30, 30},
+  {-11.25, 30, 30},
   {0, 15, 15},
-  {10, 30, 30},
+  {11.25, 30, 30},
 };
 
 int gaitRotateRight[6][3] = {//in degrees
@@ -136,18 +136,45 @@ int gaitRotateRight[6][3] = {//in degrees
     --------------->
   */
   {0, 15, 15},
-  {-10, 30, 30},
+  {-11.25, 30, 30},
   {0, 30, 30},
-  { 10, 30, 30},
+  { 11.25, 30, 30},
   {0, 15, 15},
-  {-10, 30, 30},
+  {-11.25, 30, 30},
+};
+
+int gaitRotateRightTinggi[6][3] = {//in degrees
+  /*
+       1
+    4   3   2
+    --------------->
+  */
+  {0, 5, 5},
+  {-11.25, 30, 30},
+  {0, 30, 30},
+  { 11.25, 30, 30},
+  {0, 5, 5},
+  {-11.25, 30, 30},
+};
+int gaitRotateLeftTinggi[6][3] = {//in degrees
+  /*
+       1
+    4   3   2
+    --------------->
+  */
+  {0, 5, 5},
+  {11.25, 30, 30},
+  {0, 30, 30},
+  {-11.25, 30, 30},
+  {0, 5, 5},
+  {11.25, 30, 30},
 };
 void test(){
   setPosisi(1, gait[i][0], gait[i][1], gait[i][2]);
   runAt(200);
 }
 
-void tinggi() {
+void tinggi(){
   /*
         1
     4   3   2
@@ -175,7 +202,7 @@ void tinggi() {
   }
 }
 
-void maju() {
+void maju(){
   /*
         1
     4   3   2
@@ -273,7 +300,51 @@ void rotateRight() {
   if (i >= 4) {
     i = 0;
   }
+}
+void rotateRightTinggi() {
+  if (legTime > 360) {//legtime = runAt + 60
+    legTime = 0;
+    for (int leg = 0; leg < 6; leg++) {
+      if (leg % 2 == 0) {
+        setPulse(servo[leg][0], pulse[leg][0] + degToPulse(gaitRotateRightTinggi[i][0]));
+        setPulse(servo[leg][1], pulse[leg][1] + degToPulse(gaitRotateRightTinggi[i][1]));
+        setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateRightTinggi[i][2]));
+      }
+      else {
+        setPulse(servo[leg][0], pulse[leg][0] + degToPulse(gaitRotateRightTinggi[i + 2][0]));
+        setPulse(servo[leg][1], pulse[leg][1] + degToPulse(gaitRotateRightTinggi[i + 2][1]));
+        setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateRightTinggi[i + 2][2]));
+      }
+    }
+    runAt(260);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    i++;
+  }
+  if (i >= 4) {
+    i = 0;
+  }
+}
 
+void rotateLeftTinggi() {
+  if (legTime > 320) {//legtime = runAt + 60
+    legTime = 0;
+    for (int leg = 0; leg < 6; leg++) {
+      if (leg % 2 == 0) {
+        setPulse(servo[leg][0], pulse[leg][0] + degToPulse(gaitRotateLeftTinggi[i][0]));
+        setPulse(servo[leg][1], pulse[leg][1] + degToPulse(gaitRotateLeftTinggi[i][1]));
+        setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateLeftTinggi[i][2]));
+      }
+      else {
+        setPulse(servo[leg][0], pulse[leg][0] + degToPulse(gaitRotateLeftTinggi[i + 2][0]));
+        setPulse(servo[leg][1], pulse[leg][1] + degToPulse(gaitRotateLeftTinggi[i + 2][1]));
+        setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateLeftTinggi[i + 2][2]));
+      }
+    }
+    runAt(260);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    i++;
+  }
+  if (i >= 4) {
+    i = 0;
+  }
 }
 
 //void calculate(int x, int y, int z) {
