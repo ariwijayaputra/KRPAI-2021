@@ -90,16 +90,16 @@ int gait[6][3] = {
 };
 int gaitTinggi[6][3] = {
   /*
-          1
-    4   3   2
+        1   2
+     4  3
     --------------->
   */
-  {60, 10, -40},//1
-  {50, 20, -95},//2
+  {65, 0, -45},//1
+  {50, 25, -45},//2
   {50, 0, -95},//3
-  {50, -20, -95},//4
-  {60, 10, -40},//5
-  {50, 20, -95},//6
+  {50, -25, -95},//4
+  {60, 0, -45},//5
+  {50, 20, -45},//6
 };
 
 int gaitMundur[6][3] = {
@@ -149,12 +149,12 @@ int gaitRotateRightTinggi[6][3] = {//in degrees
     4   3   2
     --------------->
   */
-  {0, 5, 5},
-  {-11.25, 30, 30},
+  {0, -15, -15},
+  {-11.25, -10, -10},
   {0, 30, 30},
-  { 11.25, 30, 30},
-  {0, 5, 5},
-  {-11.25, 30, 30},
+  { 11.25 , 30, 30},
+  {0, -15, -15},
+  {-11.25, -10, -10},
 };
 int gaitRotateLeftTinggi[6][3] = {//in degrees
   /*
@@ -162,12 +162,12 @@ int gaitRotateLeftTinggi[6][3] = {//in degrees
     4   3   2
     --------------->
   */
-  {0, 5, 5},
-  {11.25, 30, 30},
+  {0, -15, -15},
+  {11.25, -10, -10},
   {0, 30, 30},
   {-11.25, 30, 30},
-  {0, 5, 5},
-  {11.25, 30, 30},
+  {0, -15, -15},
+  {-11.25, -10, -10},
 };
 void test(){
   setPosisi(1, gait[i][0], gait[i][1], gait[i][2]);
@@ -181,7 +181,7 @@ void tinggi(){
     --------------->
   */
 
-  if (legTime > 320) {//legtime = runAt + 25
+  if (legTime > 360) {//legtime = runAt + 25
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -193,7 +193,7 @@ void tinggi(){
       }
     }
     //Serial.println(i);
-    runAt(260);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    runAt(320);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
     i++;
   }
 
@@ -316,7 +316,7 @@ void rotateRightTinggi() {
         setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateRightTinggi[i + 2][2]));
       }
     }
-    runAt(260);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    runAt(320);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
     i++;
   }
   if (i >= 4) {
@@ -325,7 +325,7 @@ void rotateRightTinggi() {
 }
 
 void rotateLeftTinggi() {
-  if (legTime > 320) {//legtime = runAt + 60
+  if (legTime > 360) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -339,7 +339,7 @@ void rotateLeftTinggi() {
         setPulse(servo[leg][2], pulse[leg][2] + degToPulse(gaitRotateLeftTinggi[i + 2][2]));
       }
     }
-    runAt(260);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    runAt(320);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
     i++;
   }
   if (i >= 4) {

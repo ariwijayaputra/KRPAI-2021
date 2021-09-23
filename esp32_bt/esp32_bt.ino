@@ -13,7 +13,7 @@ Position p[6];
 Angle a[6];
 float x[6], y[6], z[6];
 int leg; int i = 0;
-int counter = 0;
+int counter = 0;// change counter to = 0 to exit development stage, -1 to development stage
 //elapsed millis untuk timer pengganti delay. no delay delay club!
 elapsedMillis flameTime, pingTime, colorTime;
 
@@ -58,7 +58,13 @@ void loop() {
   buttonVal = digitalRead(BUTTON);
   //Serial.println(buttonVal);
   if (buttonVal == LOW) {// jika saklar ditekan
-    if (counter == 0) {// counter 0 : menentukan arah awal
+    if (counter == -1) {// counter -1 : Testing
+      walk("leftTinggi", 5000);
+      walk("rightTinggi", 5000);
+      //counter++;
+    }
+    //=============================================================================
+    else if (counter == 0) {// counter 0 : menentukan arah awal
       ping();
       //      Serial.print("1 :");
       //      Serial.print(cm[0]);
@@ -77,7 +83,15 @@ void loop() {
     //===========================================================================
     else if (counter == 1) {// counter 1 : maju ke arah kaca
       ping();
-      while (cm[0] > 16) {
+      while (cm[0] > 12) {
+        if (colorTime > 500) {
+          //sensor menyala setiap 500ms
+          color();
+          if (colorTime > 800) { //500+300 = 800
+            //minimal menyala selama 300ms untuk mendapatkan data sensor
+            colorTime = 0;
+          }
+        }
         if (pingTime > 120) {
           ping();
           //    Serial.print("1 :");
@@ -90,11 +104,11 @@ void loop() {
         }
         if (cm[1] < 14) {
           walk("left", 360);
-          walk("maju", 720);
+          walk("maju", 1080);
         }
         if (cm[2] < 14) {
           walk("right", 360);
-          walk("maju", 720);
+          walk("maju", 1080);
         }
         maju();
       }
@@ -107,10 +121,9 @@ void loop() {
     }
     //======================================================================
     else if (counter == 3) {// counter 3 : melewati rintangan 1
-      color();
       ping();
       walk("tinggi", 5000);
-      while (cm[2] < 30 || blue < 70) {
+      while (cm[2] < 100 || blue < 55 && blue > 42) {
         if (pingTime > 120) {
           ping();
           Serial.print("1 :");
@@ -124,18 +137,20 @@ void loop() {
         if (colorTime > 500) {
           //sensor menyala setiap 500ms
           color();
+          //putih >45
+          //hitam >52
           if (colorTime > 800) { //500+300 = 800
             //minimal menyala selama 300ms untuk mendapatkan data sensor
             colorTime = 0;
           }
         }
         if (cm[1] < 12) {
-          walk("rightTinggi", 720);
-          walk("tinggi", 1440);
+          walk("leftTinggi", 1160);
+          walk("tinggi", 2500);
         }
         if (cm[2] < 12) {
-          walk("leftTinggi", 720);
-          walk("tinggi", 1440);
+          walk("rightTinggi", 1160);
+          walk("tinggi", 2500);
         }
         tinggi();
       }

@@ -37,9 +37,9 @@ void color() {
     // Reading the output frequency
     blue = pulseIn(sensorOut, LOW);
     // Printing the value on the serial monitor
-        Serial.print("B= ");//printing name
-        Serial.print(blue);//printing RED color frequency
-        Serial.println("  ");
+    Serial.print("B= ");//printing name
+    Serial.print(blue);//printing RED color frequency
+    Serial.println("  ");
     RGBTime = 500;
   }
   else if (RGBTime > 600) {
