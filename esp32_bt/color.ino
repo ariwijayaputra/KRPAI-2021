@@ -11,9 +11,9 @@ void color() {
     // Reading the output frequency
     red = pulseIn(sensorOut, LOW);
     // Printing the value on the serial monitor
-    //    Serial.print("R= ");//printing name
-    //    Serial.print(red);//printing RED color frequency
-    //    Serial.print("  ");
+//    Serial.print("R= ");//printing name
+//    Serial.print(red);//printing RED color frequency
+//    Serial.print("  ");
     RGBTime = 100;
   }
   else if (RGBTime > 200 && RGBTime < 300)
@@ -24,9 +24,9 @@ void color() {
     // Reading the output frequency
     green = pulseIn(sensorOut, LOW);
     // Printing the value on the serial monitor
-    //    Serial.print("G= ");//printing name
-    //    Serial.print(green);//printing RED color frequency
-    //    Serial.print("  ");
+//    Serial.print("G= ");//printing name
+//    Serial.print(green);//printing RED color frequency
+//    Serial.print("  ");
     RGBTime = 300;
   }
   else if (RGBTime > 400 && RGBTime < 500)
@@ -37,9 +37,9 @@ void color() {
     // Reading the output frequency
     blue = pulseIn(sensorOut, LOW);
     // Printing the value on the serial monitor
-    Serial.print("B= ");//printing name
-    Serial.print(blue);//printing RED color frequency
-    Serial.println("  ");
+//    Serial.print("B= ");//printing name
+//    Serial.print(blue);//printing RED color frequency
+//    Serial.println("  ");
     RGBTime = 500;
   }
   else if (RGBTime > 600) {

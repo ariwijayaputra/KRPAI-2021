@@ -15,7 +15,7 @@ float x[6], y[6], z[6];
 int leg; int i = 0;
 int counter = 0;// change counter to = 0 to exit development stage, -1 to development stage
 //elapsed millis untuk timer pengganti delay. no delay delay club!
-elapsedMillis flameTime, pingTime, colorTime;
+elapsedMillis flameTime, pingTime, colorTime, lorong1;
 
 //variabel untuk sensor api
 int vcc = 13;
@@ -45,10 +45,11 @@ int restState;
 void setup() {
   Serial.begin(9600);
   otaSetup();
-
+  pinMode(vcc, OUTPUT);
   //SerialBT.begin("Hexapod STIKOM Bali"); //Bluetooth device name uncomment to use bluetooth
   Serial.println("The device started, now you can pair it with bluetooth!");
   pinMode(BUTTON, INPUT_PULLUP);
+  delay(2000);
   rest();
   restState = 1;
 }
@@ -56,15 +57,10 @@ void setup() {
 void loop() {
   ArduinoOTA.handle();
   buttonVal = digitalRead(BUTTON);
+  digitalWrite(vcc, HIGH);
   //Serial.println(buttonVal);
   if (buttonVal == LOW) {// jika saklar ditekan
     if (counter == -1) {// counter -1 : Testing
-      walk("leftTinggi", 5000);
-      walk("rightTinggi", 5000);
-      //counter++;
-    }
-    //=============================================================================
-    else if (counter == 0) {// counter 0 : menentukan arah awal
       ping();
       //      Serial.print("1 :");
       //      Serial.print(cm[0]);
@@ -78,52 +74,31 @@ void loop() {
       else if (cm[1] > cm[2]) {
         walk("left", 2600);
       }
-      counter++;
+      //counter++;
     }
-    //===========================================================================
-    else if (counter == 1) {// counter 1 : maju ke arah kaca
+    //=============================================================================
+    else if (counter == 0) {// counter 0 : menentukan arah awal
       ping();
-      while (cm[0] > 12) {
-        if (colorTime > 500) {
-          //sensor menyala setiap 500ms
-          color();
-          if (colorTime > 800) { //500+300 = 800
-            //minimal menyala selama 300ms untuk mendapatkan data sensor
-            colorTime = 0;
-          }
-        }
-        if (pingTime > 120) {
-          ping();
-          //    Serial.print("1 :");
-          //    Serial.print(cm[0]);
-          //    Serial.print("  2 :");
-          //    Serial.print(cm[1]);
-          //    Serial.print("  3 :");
-          //    Serial.println(cm[2]);
-          pingTime = 0;
-        }
-        if (cm[1] < 14) {
-          walk("left", 360);
-          walk("maju", 1080);
-        }
-        if (cm[2] < 14) {
-          walk("right", 360);
-          walk("maju", 1080);
-        }
-        maju();
+      //      Serial.print("1 :");
+      //      Serial.print(cm[0]);
+      //      Serial.print("  2 :");
+      //      Serial.print(cm[1]);
+      //      Serial.print("  3 :");
+      //      Serial.println(cm[2]);
+      if (cm[1] < cm[2]) {
+        walk("left", 3160);
+      }
+      else if (cm[1] > cm[2]) {
+        walk("right", 3160);
       }
       counter++;
     }
-    //======================================================================
-    else if (counter == 2) {// counter 2 : belok kiri
-      walk("left", 2880);
-      counter++;
-    }
-    //======================================================================
-    else if (counter == 3) {// counter 3 : melewati rintangan 1
+    //===========================================================================
+    else if (counter == 1) {// counter 1 : maju sampai kaca
+      lorong1 = 0;
+      walk("tinggi", 3600);
       ping();
-      walk("tinggi", 5000);
-      while (cm[2] < 100 || blue < 55 && blue > 42) {
+      do {
         if (pingTime > 120) {
           ping();
           Serial.print("1 :");
@@ -134,28 +109,49 @@ void loop() {
           Serial.println(cm[2]);
           pingTime = 0;
         }
-        if (colorTime > 500) {
-          //sensor menyala setiap 500ms
-          color();
-          //putih >45
-          //hitam >52
-          if (colorTime > 800) { //500+300 = 800
-            //minimal menyala selama 300ms untuk mendapatkan data sensor
-            colorTime = 0;
-          }
+        if ((cm[1] < 14 || cm[2] >= 18) && lorong1 < 35000) {
+          walk("leftTinggi", 540);
+          walk("tinggi", 3600);
         }
-        if (cm[1] < 12) {
-          walk("leftTinggi", 1160);
-          walk("tinggi", 2500);
+        if ((cm[2] < 14 || cm[1] >= 18) && lorong1 < 35000) {
+          walk("rightTinggi", 540);
+          walk("tinggi", 3600);
         }
-        if (cm[2] < 12) {
-          walk("rightTinggi", 1160);
-          walk("tinggi", 2500);
+        tinggi();
+      } while (cm[0] >= 20);
+      Serial.println("counter ++, belok");
+      counter++;
+    }
+    //===============================================================================
+    else if (counter == 2) {// counter 2 : belok kanan, maju
+
+      ping();
+      walk("right", 1800);
+
+
+      while (cm[0] > 12) { // melewati rintangan 1
+
+        if (pingTime > 120) {
+          ping();
+          //    Serial.print("1 :");
+          //    Serial.print(cm[0]);
+          //    Serial.print("  2 :");
+          //    Serial.print(cm[1]);
+          //    Serial.print("  3 :");
+          //    Serial.println(cm[2]);
+          pingTime = 0;
+        }
+        if (cm[1] < 14  ||  cm[2] > 19) {
+          walk("leftTinggi", 540);
+          walk("tinggi", 3960);
+        }
+        if (cm[2] < 14 ||  cm[1] > 19) {
+          walk("rightTinggi", 540);
+          walk("tinggi", 3960);
         }
         tinggi();
       }
       counter++;
-      restState = 0;
     }
   }
   if (restState == 0) {
@@ -164,12 +160,12 @@ void loop() {
   }
   if (pingTime > 120) {
     ping();
-    //    Serial.print("1 :");
-    //    Serial.print(cm[0]);
-    //    Serial.print("  2 :");
-    //    Serial.print(cm[1]);
-    //    Serial.print("  3 :");
-    //    Serial.println(cm[2]);
+    Serial.print("1 :");
+    Serial.print(cm[0]);
+    Serial.print("  2 :");
+    Serial.print(cm[1]);
+    Serial.print("  3 :");
+    Serial.println(cm[2]);
     pingTime = 0;
   }
   if (colorTime > 500) {
@@ -181,8 +177,8 @@ void loop() {
     }
   }
   if (flameTime > 500) {
-    //Serial.print("flame : ");
-    //Serial.println(checkFlame());
+    Serial.print("flame : ");
+    Serial.println(checkFlame());
     flameTime = 0;
   }
   //  if (SerialBT.available()) {
