@@ -62,19 +62,19 @@ void loop() {
   if (buttonVal == LOW) {// jika saklar ditekan
     if (counter == -1) {// counter -1 : Testing
       ping();
-      //      Serial.print("1 :");
-      //      Serial.print(cm[0]);
-      //      Serial.print("  2 :");
-      //      Serial.print(cm[1]);
-      //      Serial.print("  3 :");
-      //      Serial.println(cm[2]);
-      if (cm[1] < cm[2]) {
-        walk("right", 2600);
+      while (cm[1] < 170) {
+        if (pingTime > 120) {
+          ping();
+          //          Serial.print("1 :");
+          //          Serial.print(cm[0]);
+          //          Serial.print("  2 :");
+          //          Serial.print(cm[1]);
+          //          Serial.print("  3 :");
+          //          Serial.println(cm[2]);
+          pingTime = 0;
+        }
+        rotateRight();
       }
-      else if (cm[1] > cm[2]) {
-        walk("left", 2600);
-      }
-      //counter++;
     }
     //=============================================================================
     else if (counter == 0) {// counter 0 : menentukan arah awal
@@ -101,56 +101,100 @@ void loop() {
       do {
         if (pingTime > 120) {
           ping();
-          Serial.print("1 :");
-          Serial.print(cm[0]);
-          Serial.print("  2 :");
-          Serial.print(cm[1]);
-          Serial.print("  3 :");
-          Serial.println(cm[2]);
+          //          Serial.print("1 :");
+          //          Serial.print(cm[0]);
+          //          Serial.print("  2 :");
+          //          Serial.print(cm[1]);
+          //          Serial.print("  3 :");
+          //          Serial.println(cm[2]);
           pingTime = 0;
         }
-        if ((cm[1] < 14 || cm[2] >= 18) && lorong1 < 35000) {
+        if (cm[1] >= 22  && lorong1 < 31500) {
+          walk("mundur", 180 * 4);
+          walk("rightTinggi", 3060);
+          walk("tinggi", 2880);
+          lorong1 = lorong1 - 1080;
+        }
+        if (cm[2] >= 22  && lorong1 < 31500) {
+          walk("mundur", 180 * 4);
+          walk("leftTinggi", 3060);
+          walk("tinggi", 2880);
+          lorong1 = lorong1 - 1080;
+        }
+        if ((cm[1] < 15 || (cm[2] >= 18 && cm[1] < 20)) && lorong1 < 33000) {
           walk("leftTinggi", 540);
           walk("tinggi", 3600);
+          lorong1 = lorong1 - 360;
         }
-        if ((cm[2] < 14 || cm[1] >= 18) && lorong1 < 35000) {
+        if ((cm[2] < 15 || (cm[1] >= 18 && cm[2] < 20)) && lorong1 < 33000) {
           walk("rightTinggi", 540);
           walk("tinggi", 3600);
+          lorong1 = lorong1 - 360;
         }
         tinggi();
-      } while (cm[0] >= 20);
-      Serial.println("counter ++, belok");
+      } while (cm[0] >= 13);
       counter++;
     }
     //===============================================================================
-    else if (counter == 2) {// counter 2 : belok kanan, maju
-
+    else if (counter == 2) {// counter 2 : belok kanan, majun lorong 2
+      lorong1 = 0;
       ping();
-      walk("right", 1800);
-
-
-      while (cm[0] > 12) { // melewati rintangan 1
-
-        if (pingTime > 120) {
+      walk("rightTinggi", 3060 + 180); // Asli 2880
+      do {
+        if (pingTime > 100) {
           ping();
-          //    Serial.print("1 :");
-          //    Serial.print(cm[0]);
-          //    Serial.print("  2 :");
-          //    Serial.print(cm[1]);
-          //    Serial.print("  3 :");
-          //    Serial.println(cm[2]);
           pingTime = 0;
         }
-        if (cm[1] < 14  ||  cm[2] > 19) {
-          walk("leftTinggi", 540);
-          walk("tinggi", 3960);
+        rotateRightTinggi();
+      } while (cm[1] <= 169 || cm[0] < 45);
+      walk("rightTinggi", 1340);
+      walk("tinggi", 7540);
+      do {
+        if (pingTime > 120) {
+          ping();
+          //          Serial.print("1 :");
+          //          Serial.print(cm[0]);
+          //          Serial.print("  2 :");
+          //          Serial.print(cm[1]);
+          //          Serial.print("  3 :");
+          //          Serial.println(cm[2]);
+          pingTime = 0;
         }
-        if (cm[2] < 14 ||  cm[1] > 19) {
+        if(cm[1]>=38){
+          lorong1=50000;
+        }
+        if (cm[1] >= 18  && lorong1 < 48000) {
+          walk("mundur", 180 * 4);
+          walk("rightTinggi", 3060);
+          walk("tinggi", 2160);
+          lorong1 = lorong1 - 720;
+        }
+        if (cm[2] >= 18  && lorong1 < 48000) {
+          walk("mundur", 180 * 4);
+          walk("leftTinggi", 3060);
+          walk("tinggi", 2160);
+          lorong1 = lorong1 - 720;
+        }
+        if ((cm[1] < 15 || (cm[2] >= 18 && cm[1] < 20)) && lorong1 < 50000) {
+          walk("leftTinggi", 540);
+          walk("tinggi", 3600);
+          lorong1 = lorong1 - 360;
+        }
+        if ((cm[2] < 15 || (cm[1] >= 18 && cm[2] < 20)) && lorong1 < 50000) {
           walk("rightTinggi", 540);
-          walk("tinggi", 3960);
+          walk("tinggi", 3600);
+          lorong1 = lorong1 - 360;
         }
         tinggi();
+      } while (cm[0] >= 20);
+      counter++;
+    }
+    else if (counter == 3) {// counter 2 : belok kanan, maju
+      walk("rightTinggi", 7200);
+      while (cm[0] < 100 || cm[2] < 25) { // cm[0] <=170
+        rotateRightTinggi();
       }
+      //walk("right", 2160);
       counter++;
     }
   }

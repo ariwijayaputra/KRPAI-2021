@@ -88,6 +88,20 @@ int gait[6][3] = {
   {50, 10, -75},//5
   {50, 20, -95},//6
 };
+int gaitMundurTinggi[6][3] = {
+  /*
+        1   
+     4  3   2
+    --------------->
+  */
+  {65, 0, -45},//1
+  {50, -25, -60},//2
+  {50, 0, -95},//3
+  {50, 25, -95},//4
+  {60, 0, -45},//5
+  {50, -25, -60},//6
+};
+
 int gaitTinggi[6][3] = {
   /*
         1   
@@ -99,7 +113,7 @@ int gaitTinggi[6][3] = {
   {50, 0, -95},//3
   {50, -25, -95},//4
   {60, 0, -45},//5
-  {50, 20, -60},//6
+  {50, 25, -60},//6
 };
 
 int gaitMundur[6][3] = {
@@ -230,6 +244,32 @@ void maju(){
   }
 }
 
+
+void mundurTinggi() {
+  /*
+        1
+    4   3   2
+    --------------->
+  */
+
+  if (legTime > 360) {//legtime = runAt + 60
+    legTime = 0;
+    for (int leg = 0; leg < 6; leg++) {
+      if (leg % 2 == 0) {
+        setPosisi(leg, gaitMundurTinggi[i][0], gaitMundurTinggi[i][1], gaitMundurTinggi[i][2]);
+      }
+      else {
+        setPosisi(leg, gaitMundurTinggi[i + 2][0], gaitMundurTinggi[i + 2][1], gaitMundurTinggi[i + 2][2]);
+      }
+    }
+    runAt(120);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    i++;
+  }
+
+  if (i >= 4) {
+    i = 0;
+  }
+}
 void mundur() {
   /*
         1
@@ -237,7 +277,7 @@ void mundur() {
     --------------->
   */
 
-  if (legTime > 180) {//legtime = runAt + 60
+  if (legTime > 360) {//legtime = runAt + 60
     legTime = 0;
     for (int leg = 0; leg < 6; leg++) {
       if (leg % 2 == 0) {
@@ -247,7 +287,7 @@ void mundur() {
         setPosisi(leg, gaitMundur[i + 2][0], gaitMundur[i + 2][1], gaitMundur[i + 2][2]);
       }
     }
-    runAt(120);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
+    runAt(320);//servo speed, semakin kecil semakin cepat. maksimum 160  / 60 degrees
     i++;
   }
 

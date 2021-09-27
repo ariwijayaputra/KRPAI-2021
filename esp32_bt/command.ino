@@ -33,6 +33,10 @@ void walk(String arah, int waktu) {
       tinggi();
       //Serial.println("tinggi");
     }
+    else if (arah == "mundurTinggi") {
+      mundurTinggi();
+      //Serial.println("tinggi");
+    }
     buttonVal = digitalRead(BUTTON);
   }
 }
